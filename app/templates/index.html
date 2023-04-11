@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Hi <span class='text-success'>{{ current_user.username }}</span>, say something:
+            </p>
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.body.label }}<br>
+                    {{ form.body(cols=100, rows=1) }}<br>
+                    {% for error in form.body.errors %}
+                    <span style="color: red">{{ error }}</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.submit() }}
+                </p>
+            </form>
+{% else %}
+            <h1>Please log in to send a message</h1>
+{% endif %}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="row">
+            <div class="col-md-1" id="avatar" style="border: 2px solid white;">
+                <b><h2>Avatar</h2></b>
+            </div>
+            <div class="col-md-3" id="message" style="border: 2px solid white;">
+                <b><h2>Message</h2></b>
+            </div>
+            <div class="col-md-2" id="username" style="border: 2px solid white;">
+                <b><h2>Username</h2></b>
+            </div>
+            <div class="col-md-3" id="uploaded" style="border: 2px solid white;">
+                <b><h2>Uploaded</h2></b>
+            </div>
+            <div class="col-md-3" id="bio" style="border: 2px solid white;">
+                <b><h2>Bio</h2></b>
+            </div>
+        </div>
+            {% for post in posts %}
+                <!-- {% if post %} -->
+                    <table>
+                        <tr valign="top">
+                            <div class="col-md-1" style="border: 1px solid white">
+                                <img src='{{ post.author.avatar(36) }}' style="padding: 10px;">
+                            </div>
+                            <div class="col-md-3" style="border: 1px solid white">
+                                <h2>{{ post.body }} </h2>
+                            </div>
+                            <div class="col-md-2" style="border: 1px solid white">
+                                <h2>{{ post.author.username }}</h2>
+                            </div>
+                            <div class="col-md-3" style="border: 1px solid white">
+                                <h2>{{ post.timestamp }}</h2>
+                            </div>
+                            <div class="col-md-3" style="border: 1px solid white">
+                                <h2>{{ post.author.about_me }}</h2>
+                            </div>
+                        </tr>
+                    </table>
+                <!-- {% endif %} -->
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}
